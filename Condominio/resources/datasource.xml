@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+   
+		
+	<environments default = "development">
+	   <environment id = "development">
+	      <transactionManager type = "JDBC"/>         
+	      <dataSource type = "POOLED">
+	         <property name = "driver" value = "com.mysql.jdbc.Driver"/>
+	         <property name = "url" value = "jdbc:mysql://localhost:3306/condominio"/>
+	         <property name = "username" value = "root"/>
+	         <property name = "password" value = "gigingongo"/>
+	      </dataSource>            
+	   </environment>
+	</environments>
+
+	
+   <mappers>
+      <mapper resource = "rappresentante.xml"/>
+      <mapper resource = "delegato.xml"/>
+      <mapper resource = "palazzina.xml"/>
+      <mapper resource = "comunicazione_riunione.xml"/>
+      <mapper resource = "riunione.xml"/>
+      <mapper resource = "preventivo.xml"/>
+      <mapper resource = "verbale_finale.xml"/>
+      <mapper resource = "presenza.xml"/>
+      <mapper resource = "votazione_preventivo.xml"/>
+   </mappers>
+   
+   
+   
+</configuration>

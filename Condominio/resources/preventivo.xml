@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="it.exolab.condomini.mapper.PreventivoMapper">
+
+<insert id="insert"
+parameterType="it.exolab.condomini.model.Preventivo" useGeneratedKeys="true"
+keyProperty="id" keyColumn="id">
+insert into preventivo(id_riunione, testo, id_rappresentante ,si_totali) values (#{id_riunione}
+, #{testo}
+, #{id_rappresentante}
+, #{si_totali}
+)
+
+</insert>
+
+
+<delete id="delete" parameterType="int">
+delete from preventivo where id = #{id}
+</delete>
+
+
+
+<select id="findAll" resultType="it.exolab.condomini.model.Preventivo">
+SELECT * FROM preventivo
+</select>
+
+
+<select id="find_Preventivo_Rappresentante_Riunione" parameterType="int" resultMap="preventivomap">
+SELECT p.*, ra.nome as rappresentantenome, ra.cognome as rappresentantecognome,
+r.titolo as riunionetitolo, r.presenze_totali as riunionepresenze, r.id_palazzina as riunionepalazzina
+FROM preventivo p inner join rappresentante ra on p.id_rappresentante=r.id inner join riunione r
+on p.id_riunione=r.id
+where p.id = #{id}
+</select>
+<resultMap id="preventivomap" type="it.exolab.condomini.model.Preventivo">
+<result property="id" column="id" />
+<result property="id_riunione" column="id_riunione" />
+<result property="testo" column="testo" />
+<result property="id_rappresentante" column="id_rappresentante" />
+<result property="si_totali" column="si_totali" />
+
+<association property="rappresentante" javaType="it.exolab.condomini.model.Rappresentante">
+
+<result property="nome" column="rappresentantenome"/>
+<result property="cognome" column="rappresentantecognome"/>
+</association>
+<association property="riunione" javaType="it.exolab.condomini.model.Riunione">
+
+<result property="titolo" column="riunionetitolo"/>
+<result property="presenze_totali" column="riunionepresenze"/>
+<result property="id_palazzina" column="riunionepalazzina"/>
+</association>
+</resultMap>
+
+
+
+
+
+</mapper>

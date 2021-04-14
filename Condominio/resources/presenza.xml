@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="it.exolab.condomini.mapper.PresenzaMapper">
+
+<insert id="insert"
+parameterType="it.exolab.condomini.model.Presenza" useGeneratedKeys="true"
+keyProperty="id" keyColumn="id">
+insert into presenza(id_comunicazione, id_rappresentante , presenza_rappresentante, id_delegato, presenza_delegato) values (#{id_comunicazione}
+, #{id_rappresentante}
+, #{presenza_rappresentante}
+, #{id_delegato}
+, #{presenza_delegato}
+)
+
+</insert>
+
+
+
+<delete id="delete" parameterType="int">
+delete from presenza where id = #{id}
+</delete>
+
+
+<select id="findAll" resultType="it.exolab.condomini.model.Presenza">
+SELECT * FROM presenza
+</select>
+
+
+<select id="find_Presenza_And_Rappresentante_Or_Delegato" parameterType="int" resultMap="presenzamap">
+SELECT pr.*, r.nome as rappresentantenome, r.cognome as rappresentantecognome, r.numero_appartamento as rappresentanteappartamento,
+d.nome as delegatonome, d.cognome as delegatocognome
+FROM presenza pr inner join rappresentante r on pr.id_rappresentante=r.id
+inner join delegato d on pr.id_delegato=d.id
+where pr.id = #{id}
+</select>
+<resultMap id="presenzamap" type="it.exolab.condomini.model.Presenza">
+<result property="id" column="id" />
+<result property="id_comunicazione" column="id_comunicazione" />
+<result property="id_rappresentante" column="id_rappresentante" />
+<result property="presenza_rappresentante" column="presenza_rappresentante" />
+<result property="id_delegato" column="id_delegato" />
+<result property="presenza_delegato" column="presenza_delegato" />
+
+<association property="rappresentante" javaType="it.exolab.condomini.model.Rappresentante">
+
+<result property="nome" column="rappresentantenome"/>
+<result property="cognome" column="rappresentantecognome"/>
+<result property="numero_appartamento" column="rappresentanteappartamento"/>
+</association>
+<association property="delegato" javaType="it.exolab.condomini.model.Delegato">
+
+<result property="nome" column="delegatonome"/>
+<result property="cognome" column="delegatocognome"/>
+</association>
+</resultMap>
+
+
+
+
+</mapper>

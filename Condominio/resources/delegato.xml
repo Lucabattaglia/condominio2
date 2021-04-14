@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="it.exolab.condomini.mapper.DelegatoMapper">
+
+<insert id="insert"
+parameterType="it.exolab.condomini.model.Delegato" useGeneratedKeys="true"
+keyProperty="id" keyColumn="id">
+insert into delegato(nome, cognome, codice_fiscale, id_rappresentante) values (#{nome}
+, #{cognome}
+, #{codice_fiscale}
+, #{id_rappresentante}
+)
+
+</insert>
+
+
+<delete id="delete" parameterType="int">
+delete from delegato where id = #{id}
+</delete>
+
+
+<select id="findAll" resultType="it.exolab.condomini.model.Delegato">
+SELECT * FROM delegato
+</select>
+
+
+<select id="findDelegatoandRappresentante" resultMap="delegatomap"
+parameterType="int">
+SELECT d.*, r.nome as rappresentantenome, r.cognome as rappresentantecognome, r.numero_appartamento as rappresentanteappartamento,
+r.id_palazzina as rappresentanteidpalazzina FROM delegato d inner join rappresentante r on d.id_rappresentante=r.id
+where d.id = #{id}
+</select>
+<resultMap id="delegatomap" type="it.exolab.condomini.model.Delegato">
+<result property="id" column="id" />
+<result property="nome" column="nome" />
+<result property="cognome" column="cognome" />
+<result property="codice_fiscale" column="codice_fiscale" />
+<result property="id_rappresentante" column="id_rappresentante" />
+
+<association property="rappresentante" javaType="it.exolab.condomini.model.Rappresentante">
+
+<result property="nome" column="rappresentantenome"/>
+<result property="cognome" column="rappresentantecognome"/>
+<result property="numero_appartamento" column="rappresentanteappartamento"/>
+<result property="id_palazzina" column="rappresentanteidpalazzina"/>
+</association>
+</resultMap>
+
+
+
+</mapper>

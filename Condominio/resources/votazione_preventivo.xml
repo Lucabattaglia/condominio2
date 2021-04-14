@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="it.exolab.condomini.mapper.Votazione_preventivoMapper">
+
+<insert id="insert"
+parameterType="it.exolab.condomini.model.Votazione_preventivo" useGeneratedKeys="true"
+keyProperty="id" keyColumn="id">
+insert into votazione_preventivo(id_preventivo, id_rappresentante, id_riunione, votazione) values (#{id_preventivo}
+, #{id_rappresentante}
+, #{id_riunione}
+, #{votazione}
+)
+
+</insert>
+
+<delete id="delete" parameterType="int">
+delete from votazione_preventivo where id = #{id}
+</delete>
+
+
+<select id="findAll" resultType="it.exolab.condomini.model.Votazione_preventivo">
+SELECT * FROM votazione_preventivo
+</select>
+
+
+<select id="findVotazione_Preventivo_Rappresentante_Riunione" parameterType="int" resultMap="votazionemap">
+SELECT v.*, p.testo as preventivotesto, p.si_totali as preventivositotali,
+ra.nome as rappresentantenome, ra.cognome as rappresentantecognome,
+r.titolo as riunionetitolo, r.presenze_totali as riunionepresenzetot
+FROM votazione_preventivo v inner join preventivo p on v.id_preventivo=p.id
+inner join rappresentante ra on v.id_rappresentante=ra.id
+inner join riunione r on v.id_riunione=r.id
+where v.id = #{id}
+</select>
+<resultMap id="votazionemap" type="it.exolab.condomini.model.Votazione_preventivo">
+<result property="id" column="id" />
+<result property="id_preventivo" column="id_preventivo" />
+<result property="id_rappresentante" column="id_rappresentante" />
+<result property="id_riunione" column="id_riunione" />
+<result property="votazione" column="votazione" />
+
+<association property="preventivo" javaType="it.exolab.condomini.model.Preventivo">
+<result property="testo" column="preventivotesto"/>
+<result property="si_totali" column="preventivositotali"/>
+</association>
+
+<association property="rappresentante" javaType="it.exolab.condomini.model.Rappresentante">
+<result property="nome" column="rappresentantenome"/>
+<result property="cognome" column="rappresentantecognome"/>
+</association>
+
+<association property="riunione" javaType="it.exolab.condomini.model.Riunione">
+<result property="titolo" column="riunionetitolo"/>
+<result property="presenze_totali" column="riunionepresenzetot"/>
+</association>
+</resultMap>
+
+
+</mapper>

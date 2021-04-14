@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="it.exolab.condomini.mapper.RiunioneMapper">
+
+<insert id="insert"
+parameterType="it.exolab.condomini.model.Riunione" useGeneratedKeys="true"
+keyProperty="id" keyColumn="id">
+insert into riunione(titolo, data, presenze_totali, id_palazzina) values (#{titolo}
+, #{data}
+, #{presenze_totali}
+, #{id_palazzina}
+)
+
+</insert>
+
+<delete id="delete" parameterType="int">
+delete from riunione where id = #{id}
+</delete>
+
+
+<select id="find" resultType="it.exolab.condomini.model.Riunione"
+parameterType="int">
+SELECT * FROM riunione where id = #{id}
+</select>
+
+
+<select id="findAll" resultType="it.exolab.condomini.model.Riunione">
+SELECT * FROM riunione
+</select>
+
+
+
+
+</mapper>
